@@ -110,16 +110,15 @@ function handleUpdateArtist(Request $request, Response $response, array $args)
     for ($index = 0; $index < count($data); $index++) {
 
         $single_artist = $data[$index];
-        //$artistId = $single_artist["ArtistId"];
+        $artistId = $single_artist["ArtistId"];
         $artistName = $single_artist["Name"];
 
         
         //-- We perform an CREATE SQL statement
         $existing_artist_record = array(
-            //"ArtistId"=> 277,
             "Name" => $artistName
         );
-        $artist_model->updateArtists($existing_artist_record, array("Name" => $artistName));
+    $artist_model->updateArtists($existing_artist_record, array("ArtistId"=> $artistId));
     }
 
 
