@@ -76,8 +76,6 @@ function handleCreateArtists(Request $request, Response $response, array $args) 
     //-- Go over elements stored in the $data array
     //-- In a for/each loop
     $artist_model = new  ArtistModel();
-
-    //foreach ($data as $key => $value){
         for ($index = 0; $index < count($data); $index++){
             $single_artist = $data[$index];
             $artistId = $single_artist["ArtistId"];
@@ -92,14 +90,7 @@ function handleCreateArtists(Request $request, Response $response, array $args) 
             //-- We perform an UPDATE/CREATE SQL statement
             $artist_model->createArtists($new_artist_record);
 
-            /*$existing_artist_record = array(
-                "ArtistId"=> 277,
-                "Name"=> "Bunny"
-            );*/
-            //$artist_model->updateArtists($existing_artist_record, array("ArtistId"=>$artistId));
-
         }
-    //} 
     
     $html = var_export($data, true);
     $response->getBody()->write($html);
@@ -115,23 +106,22 @@ function handleUpdateArtist(Request $request, Response $response, array $args) {
     //foreach ($data as $key => $value){
         for ($index = 0; $index < count($data); $index++){
             $single_artist = $data[$index];
-            $artistId = $single_artist["ArtistId"];
+            //$artistId = $single_artist["ArtistId"];
             $artistName = $single_artist["Name"];
 
             $new_artist_record = array(
-                "ArtistId"=>$artistId,
+                //"ArtistId"=>$artistId,
                 "Name"=>$artistName
             );
 
             //-- We retrieve the key and its value
-            //-- We perform an UPDATE/CREATE SQL statement
-            $artist_model->createArtists($new_artist_record);
+            //-- We perform an CREATE SQL statement
 
-            /*$existing_artist_record = array(
+            $existing_artist_record = array(
                 "ArtistId"=> 277,
                 "Name"=> "Bunny"
-            );*/
-            //$artist_model->updateArtists($existing_artist_record, array("ArtistId"=>$artistId));
+            );
+            $artist_model->updateArtists($existing_artist_record, array("ArtistId"=>$artistId));
 
         }
     //} 
