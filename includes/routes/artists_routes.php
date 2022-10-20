@@ -10,7 +10,8 @@ require_once __DIR__ . './../models/ArtistModel.php';
 
 // Callback for HTTP GET /artists
 //-- Supported filtering operation: by artist name.
-function handleGetAllArtists(Request $request, Response $response, array $args) {
+function handleGetAllArtists(Request $request, Response $response, array $args)
+{
     $artists = array();
     $response_data = array();
     $response_code = HTTP_OK;
@@ -24,7 +25,7 @@ function handleGetAllArtists(Request $request, Response $response, array $args) 
     } else {
         // No filtering by artist name detected.
         $artists = $artist_model->getAll();
-    }    
+    }
     // Handle serve-side content negotiation and produce the requested representation.    
     $requested_format = $request->getHeader('Accept');
     //--
@@ -39,7 +40,8 @@ function handleGetAllArtists(Request $request, Response $response, array $args) 
     return $response->withStatus($response_code);
 }
 
-function handleGetArtistById(Request $request, Response $response, array $args) {
+function handleGetArtistById(Request $request, Response $response, array $args)
+{
     $artist_info = array();
     $response_data = array();
     $response_code = HTTP_OK;
@@ -71,67 +73,61 @@ function handleGetArtistById(Request $request, Response $response, array $args) 
     return $response->withStatus($response_code);
 }
 
-function handleCreateArtists(Request $request, Response $response, array $args) {
+function handleCreateArtists(Request $request, Response $response, array $args)
+{
     $data = $request->getParsedBody();
     //-- Go over elements stored in the $data array
     //-- In a for/each loop
     $artist_model = new  ArtistModel();
-        for ($index = 0; $index < count($data); $index++){
-            $single_artist = $data[$index];
-            $artistId = $single_artist["ArtistId"];
-            $artistName = $single_artist["Name"];
+    for ($index = 0; $index < count($data); $index++) {
+        $single_artist = $data[$index];
+        $artistId = $single_artist["ArtistId"];
+        $artistName = $single_artist["Name"];
 
-            $new_artist_record = array(
-                "ArtistId"=>$artistId,
-                "Name"=>$artistName
-            );
+        $new_artist_record = array(
+            "ArtistId" => $artistId,
+            "Name" => $artistName
+        );
 
-            //-- We retrieve the key and its value
-            //-- We perform an UPDATE/CREATE SQL statement
-            $artist_model->createArtists($new_artist_record);
+        //-- We retrieve the key and its value
+        //-- We perform an UPDATE/CREATE SQL statement
+        $artist_model->createArtists($new_artist_record);
+    }
 
-        }
-    
     $html = var_export($data, true);
     $response->getBody()->write($html);
     return $response;
 }
 
-function handleUpdateArtist(Request $request, Response $response, array $args) {
+function handleUpdateArtist(Request $request, Response $response, array $args)
+{
     $data = $request->getParsedBody();
     //-- Go over elements stored in the $data array
     //-- In a for/each loop
     $artist_model = new  ArtistModel();
+    for ($index = 0; $index < count($data); $index++) {
+        $single_artist = $data[$index];
+        //$artistId = $single_artist["ArtistId"];
+        $artistName = $single_artist["Name"];
 
-    //foreach ($data as $key => $value){
-        for ($index = 0; $index < count($data); $index++){
-            $single_artist = $data[$index];
-            //$artistId = $single_artist["ArtistId"];
-            $artistName = $single_artist["Name"];
+        //-- We retrieve the key and its value
+        //-- We perform an CREATE SQL statement
 
-            $new_artist_record = array(
-                //"ArtistId"=>$artistId,
-                "Name"=>$artistName
-            );
+        $existing_artist_record = array(
+            //"ArtistId"=> 277,
+            "Name" => "Bunny"
+        );
+        $artist_model->updateArtists($existing_artist_record, array("Name" => $artistName));
+    }
 
-            //-- We retrieve the key and its value
-            //-- We perform an CREATE SQL statement
 
-            $existing_artist_record = array(
-                "ArtistId"=> 277,
-                "Name"=> "Bunny"
-            );
-            $artist_model->updateArtists($existing_artist_record, array("ArtistId"=>$artistId));
-
-        }
-    //} 
-    
     $html = var_export($data, true);
     $response->getBody()->write($html);
     return $response;
 }
 
-function handleGetAllAlbumsFromArtist(Request $request, Response $response, array $args) {
+function handleGetAllAlbumsFromArtist(Request $request, Response $response, array $args)
+{
     $album_info = array();
     $response_data = array();
     $response_code = HTTP_OK;
@@ -163,7 +159,8 @@ function handleGetAllAlbumsFromArtist(Request $request, Response $response, arra
 }
 
 
-function handleGetTracksFromAlbumsAndArtist(Request $request, Response $response, array $args) {
+function handleGetTracksFromAlbumsAndArtist(Request $request, Response $response, array $args)
+{
     $album_info = array();
     $response_data = array();
     $response_code = HTTP_OK;
@@ -194,4 +191,3 @@ function handleGetTracksFromAlbumsAndArtist(Request $request, Response $response
     $response->getBody()->write($response_data);
     return $response->withStatus($response_code);
 }
-
