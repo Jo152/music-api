@@ -105,17 +105,19 @@ function handleUpdateArtist(Request $request, Response $response, array $args)
     //-- Go over elements stored in the $data array
     //-- In a for/each loop
     $artist_model = new  ArtistModel();
+
+    //-- We retrieve the key and its value
     for ($index = 0; $index < count($data); $index++) {
+
         $single_artist = $data[$index];
         //$artistId = $single_artist["ArtistId"];
         $artistName = $single_artist["Name"];
 
-        //-- We retrieve the key and its value
+        
         //-- We perform an CREATE SQL statement
-
         $existing_artist_record = array(
             //"ArtistId"=> 277,
-            "Name" => "Bunny"
+            "Name" => $artistName
         );
         $artist_model->updateArtists($existing_artist_record, array("Name" => $artistName));
     }
