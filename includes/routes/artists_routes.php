@@ -192,3 +192,8 @@ function handleGetTracksFromAlbumsAndArtist(Request $request, Response $response
     $response->getBody()->write($response_data);
     return $response->withStatus($response_code);
 }
+
+
+function handleDeleteArtist(Request $request, Response $response, array $args){
+    
+}
