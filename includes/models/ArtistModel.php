@@ -67,7 +67,7 @@ class ArtistModel extends BaseModel {
     }
 
     /**
-     * Retrieve an album by its artistId.
+     * Retrieve an album by its artistId and albumId.
      * @param int $artist_id the id of the album.
      * @return array an array containing information about a given album.
      */
@@ -76,6 +76,13 @@ class ArtistModel extends BaseModel {
         $sql = "SELECT * FROM artist, album, track WHERE artist.ArtistId = album.ArtistId 
             AND album.albumId = track.AlbumId AND artist.ArtistId = ? AND album.AlbumId = ?";
         $data = $this->run($sql, [$artist_id, $album_id])->fetchAll();
+        return $data;
+    }
+
+
+    public function deleteArtistById($artist_id) {
+        $sql = "DELETE FROM artist WHERE ArtistId = ?";
+        $data = $this->run($sql, [$artist_id]);//->fetch();
         return $data;
     }
 

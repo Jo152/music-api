@@ -56,6 +56,11 @@ $app->post("/artists", "handleCreateArtists");
 $app->put("/artists", "handleUpdateArtist");
 
 // -- DELETE Request
+//Delete artist
+$app->delete("/artists/{artist_id}", "handleDeleteArtist");
+
+//Delete customer
+$app->delete("/customers/{customer_id}", "handleDeleteCustomer");
 
 // -- Filtering operations
 

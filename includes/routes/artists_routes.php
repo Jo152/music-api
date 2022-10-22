@@ -195,5 +195,34 @@ function handleGetTracksFromAlbumsAndArtist(Request $request, Response $response
 
 
 function handleDeleteArtist(Request $request, Response $response, array $args){
+    $artist_info = array();
+    $response_data = array();
+    $response_code = HTTP_OK;
+    $artist_model = new ArtistModel();
+
+    // Retreive the artist from the request's URI.
+    $artist_id = $args["artist_id"];
+    if (isset($artist_id)) {
+        // Fetch the info about the specified artist.
+        $artist_info = $artist_model->deleteArtistById($artist_id);
+        if (!$artist_info) {
+            // No matches found?
+            $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified artist.");
+            $response->getBody()->write($response_data);
+            return $response->withStatus(HTTP_NOT_FOUND);
+        }
+    }
+    // Handle serve-side content negotiation and produce the requested representation.    
+    $requested_format = $request->getHeader('Accept');
+    //--
+    //-- We verify the requested resource representation.    
+    if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
+        $response_data = json_encode($artist_info, JSON_INVALID_UTF8_SUBSTITUTE);
+    } else {
+        $response_data = json_encode(getErrorUnsupportedFormat());
+        $response_code = HTTP_UNSUPPORTED_MEDIA_TYPE;
+    }
+    $response->getBody()->write($response_data);
+    return $response->withStatus($response_code);
     
 }
