@@ -24,13 +24,13 @@ class CustomerModel extends BaseModel {
     }
 
     /**
-     * Get a list of customer whose name matches or contains the provided value.       
+     * Get a list of customer whose country matches or contains the provided value.       
      * @param string $customerName 
      * @return array An array containing the matches found.
      */
-    public function getWhereLike($customerName) {
-        $sql = "SELECT * FROM customer WHERE FirstName LIKE :name";
-        $data = $this->run($sql, [":name" => $customerName . "%"])->fetchAll();
+    public function getWhereLikeCountry($country) {
+        $sql = "SELECT * FROM customer WHERE Country LIKE :country";
+        $data = $this->run($sql, [":country" => $country . "%"])->fetchAll();
         return $data;
     }
 

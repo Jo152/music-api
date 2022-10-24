@@ -18,9 +18,9 @@ function handleGetAllCustomers(Request $request, Response $response, array $args
 
     // Retreive the query string parameter from the request's URI.
     $filter_params = $request->getQueryParams();
-    if (isset($filter_params["name"])) {
-        // Fetch the list of artists matching the provided name.
-        $artists = $customer_model->getWhereLike($filter_params["name"]);
+    if (isset($filter_params["country"])) {
+        // Fetch the list of customer matching the provided name.
+        $artists = $customer_model->getWhereLikeCountry($filter_params["country"]);
     } else {
         // No filtering by artist name detected.
         $artists = $customer_model->getAll();
