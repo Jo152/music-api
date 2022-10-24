@@ -32,13 +32,13 @@ class TrackModel extends BaseModel {
 
 
     public function getWhereLikeGenre($genre) {
-        $sql = "SELECT * FROM artist WHERE Name LIKE :genre";
+        $sql = "SELECT * FROM track WHERE Name LIKE :genre";
         $data = $this->run($sql, [":genre" =>$genre . "%"])->fetchAll();
         return $data;
     }
 
     public function getWhereLikeMediaType($media) {
-        $sql = "SELECT * FROM artist WHERE Name LIKE :media";
+        $sql = "SELECT * FROM track WHERE Name LIKE :media";
         $data = $this->run($sql, [":media" =>$media . "%"])->fetchAll();
         return $data;
     }
