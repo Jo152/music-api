@@ -205,6 +205,7 @@ function handleDeleteArtist(Request $request, Response $response, array $args){
     if (isset($artist_id)) {
         // Fetch the info about the specified artist.
         $artist_info = $artist_model->deleteArtistById($artist_id);
+        $artist_info = "Artist has been deleted";
         if (!$artist_info) {
             // No matches found?
             $response_data = makeCustomJSONError("resourceNotFound", "No matching record was found for the specified artist.");
