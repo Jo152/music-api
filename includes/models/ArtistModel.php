@@ -30,7 +30,7 @@ class ArtistModel extends BaseModel {
      */
     public function getWhereLike($artistName) {
         $sql = "SELECT * FROM artist WHERE Name LIKE :name";
-        $data = $this->run($sql, [":name" => $artistName . "%"])->fetchAll();
+        $data = $this->run($sql, [":name" =>"%" . $artistName . "%"])->fetchAll();
         return $data;
     }
 
