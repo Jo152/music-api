@@ -45,6 +45,11 @@ $app->get("/artists/{artist_id}/albums/{album_id}/tracks", "handleGetTracksFromA
 $app->get("/customers/{customer_id}/invoices", "handleGetAllPurchasedTracksFromCustomer");
 
 // #6 Get List of customers
+//$app->get("/comments", "handleGetComments");
+
+
+
+// Get list of comments from remote API
 $app->get("/customers", "handleGetAllCustomers");
 
 // -- POST Request

@@ -4,6 +4,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 //var_dump($_SERVER["REQUEST_METHOD"]);
 use Slim\Factory\AppFactory;
+use GuzzleHttp\Client;
 
 require_once __DIR__ . './../models/BaseModel.php';
 require_once __DIR__ . './../models/ArtistModel.php';
@@ -31,6 +32,9 @@ function handleGetAllArtists(Request $request, Response $response, array $args)
     //--
     //-- We verify the requested resource representation.    
     if ($requested_format[0] === APP_MEDIA_TYPE_JSON) {
+        //-- now we mix the data from artists from db in data from remote api
+        //$response_data["artists"] = $artists;
+        //$response_data["comments"] = handleGetComments();
         $response_data = json_encode($artists, JSON_INVALID_UTF8_SUBSTITUTE);
     } else {
         $response_data = json_encode(getErrorUnsupportedFormat());
@@ -226,4 +230,27 @@ function handleDeleteArtist(Request $request, Response $response, array $args){
     $response->getBody()->write($response_data);
     return $response->withStatus($response_code);
     
+}
+
+/**Pull data not from database but from remote REST API.
+ * Client will consume: https://jsonplaceholder.typicode.com/comments
+ **/
+
+function handleGetComments(){
+    $comments = Array();
+
+    //-- 1) Instantiate Guzzle Client.
+    $uri = "https://jsonplaceholder.typicode.com/comments";    
+    $client = new Client();
+    $guzzle_response = $client->get($uri);
+
+    //-- Ensure that the response was 200!/ok
+    if ($guzzle_response->getStatusCode() === 200){
+        //-- Now we can pull the body's content.
+        $data = $guzzle_response->getBody()->getContents();
+        
+        $comments = $data;
+    }
+
+    return $comments;
 }
